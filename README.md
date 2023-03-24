@@ -12,6 +12,8 @@
 ![image](https://user-images.githubusercontent.com/111706273/227554005-cb6cd8b5-180e-48cc-897c-054a86bbbe4d.png)
 <p>Our whole dataset would now look like this:</p>
 ![image](https://user-images.githubusercontent.com/111706273/227554080-418c3d74-5ed2-49ed-8e16-d328d1e1768f.png)
+![Picture1](https://user-images.githubusercontent.com/111706273/227555631-5df935ff-d1cb-4344-9633-05eddf522c3e.png)
+
 <p>The next step was to split the dataset into three sets; the Training set (which consisted of 60% of the data), the Validation set (consisting of 20% of the data) and the Test set (consisting of the last 20%). The Training set will be used to create and work on the model, as well as the Validation set. In addition, the Validation set will be used to pick the ‘best’ model after it has been trained. The Test set will then be used for the final test on our ‘best’ model.
 The way I split the data was using “Ablebit Tools” which can be downloaded for Microsoft Excel, which can select a random number of rows depending on the percentage you choose.
 Once the data was split in the three sets (the column “Date” was removed from each split), we can standardize it. The equation used to standardize the data is as follows, using the max and min of each set and each column, we can calculate the standardization of each value (Ri) using the following equation.</p>
