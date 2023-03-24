@@ -47,5 +47,5 @@ When updating the weights, I move backwards from the output node to the first in
 
 <h2>Training and network selection</h2>
 <p>After training my neural network, I recorded the MSE after 70 epochs each time I tested it. The reason I used this number of epochs is due to the MSE being very unnoticeable after more than 70 epochs, which makes it hard to visualize. Without any improvements, firstly I tested my MLP with two hidden nodes and compared it to data from a 5 and 10 hidden nodes MLP.</p>
-<img style="width: 100px; height: auto"  src="https://user-images.githubusercontent.com/111706273/227566198-01b9433b-648e-4d57-b014-a8104e8599a8.png">
+<img style="width: 250px; height: auto" class="center" src="https://user-images.githubusercontent.com/111706273/227566198-01b9433b-648e-4d57-b014-a8104e8599a8.png">
 <p>As shown in the graph above, the number of hidden nodes have an impact on our neural network. So as we can see, having more hidden nodes in the neural network improves how fast the MSE is lowered. Therefore, the most optimal number of nodes for my MLP is to have 10 hidden nodes for my final model.</p>
