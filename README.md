@@ -140,14 +140,14 @@ if (weightDecay == true) {
 
 ```
 
-<h3>Evaluation of final model</h3>
+<h2>Evaluation of final model</h2>
 <p>In this section I will evaluate and compare my best model to my original data and show the difference between the number of nodes, inputs and improvements. As you can see on the graph below, our model after 100 epochs and using all the improvements closely match the values of the original set. In comparison, the graph that displays one epoch shows that the data is far from our original data set.</p>
 <img style="width: 300px; height: auto" src="https://user-images.githubusercontent.com/111706273/227574764-de524440-b003-4e7a-b047-92f2ddc44ed6.png">
 <p>The reason I left my model at 100 epochs is because it is possible to overtrain the data by using too many epochs. Even though our MSE will still be close to zero, we can still achieve a great MSE using fewer epochs. As we can see on the graph below, our graph gradient turns flat around the 50-epoch mark where the value is 0.00239530. In addition, the number of inputs also have an impact on our model and our mean values. As we can see from our graph below, our optimal number of inputs is five. Strangely enough, our number of inputs from 1 to 4 increase rapidly and suddenly decrease on input 5.</p>
 <img style="width: 300px; height: auto" src="https://user-images.githubusercontent.com/111706273/227575028-36deb020-b3ab-4562-9fcc-a6dd03a8cb1d.png">
 <p>Therefore, our ANN is most optimal with 5 inputs, 10 hidden nodes, 3 improvements (momentum, bold driver and annealing) and 50 epochs. As we can see on the graph below, our MSE greatly improves throughout the first 30 epochs.</p>
 
-<h3>Comparison with another data driven model</h3>
+<h2>Comparison with another data driven model</h2>
 <p>In this section, I will be using a linear regression model and compare it to my model using Excell. Firstly, I calculated linear regression using my original and cleaned data from the test set. The equation I used in Excell is as follows:</p>
 <p><strong>=LINEST(F2:F290,A2:E290,TRUE,TRUE)</strong></p>
 <p>Where F2:F290 represents the PanE column, A2:E290 represents the rest of the columns. After clicking enter, we get the following table where we will be using only the first row of numbers. In order for this model to predict new PanE values we use the following equation (below the table).</p>
