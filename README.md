@@ -4,14 +4,14 @@
 
 <h2>Data pre-processing</h2>
 <p>In this section I will describe how I will clean the original dataset such as removing any outliers or incorrect values stored in the dataset and standardising them. The first step was to search each column on the original dataset and find any incorrect formatted values such as letters or empty spaces:</p>
-![image](https://user-images.githubusercontent.com/111706273/227553191-abaa6d57-d9e3-4cd2-99b5-c08a50fa054a.png)
+<img style="width: 300px; height: auto" src="https://user-images.githubusercontent.com/111706273/227553191-abaa6d57-d9e3-4cd2-99b5-c08a50fa054a.png">
 <p>The way these rows where selected was using “formatting” tools in the Excell Data Sheet. After removing a large number of incorrect formatted values or outliers (such as the temperature being 180°C – which is unreasonable) I used the z-score method to remove any other outliers. The formula used is:</p>
 <p><strong> z=(x-mean)/std_deviation</strong>.</p>
 <p>Which calculates the distance and mean in standard deviation units. A value greater than a threshold is considered an outlier, such as 3 standard deviations from the mean.</p>
 <p>After removing all the outliers, we can visualize cleaner graphs, such as:</p>
-![image](https://user-images.githubusercontent.com/111706273/227554005-cb6cd8b5-180e-48cc-897c-054a86bbbe4d.png)
+<img style="width: 300px; height: auto" src="https://user-images.githubusercontent.com/111706273/227554005-cb6cd8b5-180e-48cc-897c-054a86bbbe4d.png">
 <p>Our whole dataset would now look like this:</p>
-![image](https://user-images.githubusercontent.com/111706273/227554080-418c3d74-5ed2-49ed-8e16-d328d1e1768f.png)
+<img style="width: 300px; height: auto" src="https://user-images.githubusercontent.com/111706273/227554080-418c3d74-5ed2-49ed-8e16-d328d1e1768f.png">
 <p>The next step was to split the dataset into three sets; the Training set (which consisted of 60% of the data), the Validation set (consisting of 20% of the data) and the Test set (consisting of the last 20%). The Training set will be used to create and work on the model, as well as the Validation set. In addition, the Validation set will be used to pick the ‘best’ model after it has been trained. The Test set will then be used for the final test on our ‘best’ model.
 The way I split the data was using “Ablebit Tools” which can be downloaded for Microsoft Excel, which can select a random number of rows depending on the percentage you choose.
 Once the data was split in the three sets (the column “Date” was removed from each split), we can standardize it. The equation used to standardize the data is as follows, using the max and min of each set and each column, we can calculate the standardization of each value (Ri) using the following equation.</p>
@@ -20,7 +20,7 @@ Once the data was split in the three sets (the column “Date” was removed fro
 <h2>Implementation of Algorithm</h2>
 <p>The first step to implementing my Multi-Layer Perceptron was to hard-code the example given in lectures to make it easier to understand how an MLP worked. I was able to create the MLP with a fixed number of 2 inputs and 2 hidden nodes and recreate the correct output given in the lectures with both, one epoch and 20,000 epochs.
 The next step was to automate the MLP so that it was possible to add multiple inputs and hidden nodes. The diagram, bellow represents how the MLP is structured. The number of inputs in the artificial network will be equal to the length of the dataset. The number of hidden nodes can be updated in order to obtain the most optimal MLP. Finally, there will be only one output node which we will try to approximate it to the PanE after each epoch.</p>
-![image](https://user-images.githubusercontent.com/111706273/227556304-054700ab-b40d-47b0-a019-b9183ed91f9d.png)
+<img style="width: 20px; height: auto" src="https://user-images.githubusercontent.com/111706273/227556304-054700ab-b40d-47b0-a019-b9183ed91f9d.png">
 <p>My implementation of the MLP has been made using Java, where it consists of one class and multiple methods all of which are used for the neural network, including X improvements I applied to my MLP, which I will discuss later on.
 The main() method starts by setting all the variables I will need to store and run the Neural Network as well as call other methods. Some of these variables call the following methods:</p>
 <ul>
@@ -47,5 +47,19 @@ When updating the weights, I move backwards from the output node to the first in
 
 <h2>Training and network selection</h2>
 <p>After training my neural network, I recorded the MSE after 70 epochs each time I tested it. The reason I used this number of epochs is due to the MSE being very unnoticeable after more than 70 epochs, which makes it hard to visualize. Without any improvements, firstly I tested my MLP with two hidden nodes and compared it to data from a 5 and 10 hidden nodes MLP.</p>
-<img style="width: 250px; height: auto" class="center" src="https://user-images.githubusercontent.com/111706273/227566198-01b9433b-648e-4d57-b014-a8104e8599a8.png">
+<img style="width: 300px; height: auto" src="https://user-images.githubusercontent.com/111706273/227566198-01b9433b-648e-4d57-b014-a8104e8599a8.png">
 <p>As shown in the graph above, the number of hidden nodes have an impact on our neural network. So as we can see, having more hidden nodes in the neural network improves how fast the MSE is lowered. Therefore, the most optimal number of nodes for my MLP is to have 10 hidden nodes for my final model.</p>
+
+<h3>Momentum Improvement</h3>
+<img style="width: 200px; height: auto" align="left" src="https://user-images.githubusercontent.com/111706273/227570720-d9a49f38-0944-4898-866d-bdecfd1ab578.png">
+<p align="left">By implementing momentum, we can see that our model has improved drastically on our MSE values. With momentum, our MSE reaches close to zero around the 15th epoch whereas without momentum, our MSE reaches close to zero around the 30-epoch mark.</p>
+```
+// Updating bias & weights for hidden nodes
+for (int inputN = 0; inputN < firstHiddenNode; inputN++) {
+  // Adding momentum
+  if (momentum == true && epoch != 0) {
+    momentumVal = 0.9 * (p * (deltas[hiddenN]) * (weightAndBias[0][inputN]));
+  }
+  weightAndBias[inputN][hiddenN] = weightAndBias[inputN][hiddenN] + (p * (deltas[hiddenN]) * (weightAndBias[0][inputN])) + momentumVal;
+}
+```
