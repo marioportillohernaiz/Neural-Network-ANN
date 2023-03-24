@@ -56,6 +56,7 @@ When updating the weights, I move backwards from the output node to the first in
 <br><br>
 
 ```
+// Updating bias & weights for hidden nodes
 for (int inputN = 0; inputN < firstHiddenNode; inputN++) {
   // Adding momentum
   if (momentum == true && epoch != 0) {
