@@ -57,11 +57,11 @@ When updating the weights, I move backwards from the output node to the first in
 ```
 // Updating bias & weights for hidden nodes
 for (int inputN = 0; inputN < firstHiddenNode; inputN++) {
-  // Adding momentum
-  if (momentum == true && epoch != 0) {
-    momentumVal = 0.9 * (p * (deltas[hiddenN]) * (weightAndBias[0][inputN]));
-  }
-  weightAndBias[inputN][hiddenN] = weightAndBias[inputN][hiddenN] + (p * (deltas[hiddenN]) * (weightAndBias[0][inputN])) + momentumVal;
+    // Adding momentum
+    if (momentum == true && epoch != 0) {
+        momentumVal = 0.9 * (p * (deltas[hiddenN]) * (weightAndBias[0][inputN]));
+    }
+    weightAndBias[inputN][hiddenN] = weightAndBias[inputN][hiddenN] + (p * (deltas[hiddenN]) * (weightAndBias[0][inputN])) + momentumVal;
 }
 ```
 
@@ -73,20 +73,20 @@ for (int inputN = 0; inputN < firstHiddenNode; inputN++) {
 ```
 // Updates p within the Bold Driver laws
 if (epoch % 100 == 0 && epoch != 0 && boldDriver == true) {
-  double percentageIncrease = ((oldMean - mean[epoch]) / oldMean) * 100;
+    double percentageIncrease = ((oldMean - mean[epoch]) / oldMean) * 100;
 
-  if (p >= 0.01 && p <= 0.5) {
-    if (percentageIncrease >= 4) {
-      p = p * 0.7;
-      weightAndBias = prevWeightAndBias;
-    } else if (percentageIncrease < 0) {
-      p = p * 1.05;
-     weightAndBias = prevWeightAndBias;
+    if (p >= 0.01 && p <= 0.5) {
+        if (percentageIncrease >= 4) {
+            p = p * 0.7;
+            weightAndBias = prevWeightAndBias;
+        } else if (percentageIncrease < 0) {
+            p = p * 1.05;
+          weightAndBias = prevWeightAndBias;
+        }
     }
-  }
-  oldMean = mean[epoch];
+    oldMean = mean[epoch];
 } else if (epoch == 0) {
-  oldMean = mean[epoch];
+    oldMean = mean[epoch];
 }
 
 ```
@@ -98,11 +98,11 @@ if (epoch % 100 == 0 && epoch != 0 && boldDriver == true) {
 
 ```
 public static double annealingCalc(int numbOfEpoch, int epoch, double p) {
-double endP = 0.01;
-double q = 0.1;
+    double endP = 0.01;
+    double q = 0.1;
 
-p = endP + ((q - endP)*(1-(1/(1+Math.exp(10-((20*epoch)/numbOfEpoch))))));
-return p;
+    p = endP + ((q - endP)*(1-(1/(1+Math.exp(10-((20*epoch)/numbOfEpoch))))));
+    return p;
 }
 
 ```
@@ -115,27 +115,27 @@ return p;
 ```
 // Using weight decay as an improvement
 if (weightDecay == true) {
-double count = 0;
-double omega = 0;
-double upsilon = 0;
+    double count = 0;
+    double omega = 0;
+    double upsilon = 0;
 
-for (int row = 0; row < weightAndBias.length; row++) {
-for (int col = firstHiddenNode; col < indexOuputNode; col++) { // change
+    for (int row = 0; row < weightAndBias.length; row++) {
+        for (int col = firstHiddenNode; col < indexOuputNode; col++) { // change
 
-if (weightAndBias[row][col] != null && row != col) {
-omega += Math.pow(weightAndBias[row][col], 2);
-count++;
-}
-}
-}
-omega = omega * (1/(2*(count)));
-if(epoch != 0) {
-upsilon = 1 / (p * epoch);
-}
+            if (weightAndBias[row][col] != null && row != col) {
+                omega += Math.pow(weightAndBias[row][col], 2);
+                count++;
+            }
+        }
+    }
+    omega = omega * (1/(2*(count)));
+    if(epoch != 0) {
+        upsilon = 1 / (p * epoch);
+    }
 
-delta5 = ((fileRead[i][firstHiddenNode-1] - u5) + (omega * upsilon)) * (u5 * (1 - u5));
+    delta5 = ((fileRead[i][firstHiddenNode-1] - u5) + (omega * upsilon)) * (u5 * (1 - u5));
 } else {
-delta5 = (fileRead[i][firstHiddenNode-1] - u5) * (u5 * (1 - u5));
+    delta5 = (fileRead[i][firstHiddenNode-1] - u5) * (u5 * (1 - u5));
 }
 
 ```
