@@ -68,7 +68,7 @@ for (int inputN = 0; inputN < firstHiddenNode; inputN++) {
 <h3>Bold Driver improvement</h3>
 <img style="width: 200px; height: auto" align="left" src="https://user-images.githubusercontent.com/111706273/227572948-d2174ab0-f256-44ca-8a20-6dae2a558ec2.png">
 <p align="left">Bold driver is the second  improvement that can be implemented on our model. It updates the learning parameter automatically to prevent the model to oscillate or become trapped in a local minima. The learning parameter is increased or decreased depending on some factors (these can be seen in the code below).</p>
-<br><br>
+<br><br><br>
 
 ```
 // Updates p within the Bold Driver laws
@@ -94,7 +94,7 @@ if (epoch % 100 == 0 && epoch != 0 && boldDriver == true) {
 <h3>Annealing improvement</h3>
 <img style="width: 200px; height: auto" align="left" src="https://user-images.githubusercontent.com/111706273/227573234-afdd7ba2-3f1f-4562-8a93-e9866c52af5b.png">
 <p align="left">Annealing changes the stepping size after each epoch where each change is based on the maximum number of epochs and the current epoch it’s at. As we can see on our graph, annealing is not the best improvement.</p>
-<br><br>
+<br><br><br>
 
 ```
 public static double annealingCalc(int numbOfEpoch, int epoch, double p) {
@@ -110,7 +110,7 @@ return p;
 <h3>Weight Decay improvement</h3>
 <img style="width: 200px; height: auto" align="left" src="https://user-images.githubusercontent.com/111706273/227573462-2a3c6055-a351-4850-b915-34d418524605.png">
 <p align="left">The weight decay improvement wasn’t implemented correctly to my neural network, for this reason we can see a large spike on early epochs instead of the opposite. On the other hand, weight decay has a negative impact on the MSE due to the weights never being large enough for it to affect our model in a positive way.</p>
-<br><br>
+<br><br><br>
 
 ```
 // Using weight decay as an improvement
