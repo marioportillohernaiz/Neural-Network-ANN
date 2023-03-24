@@ -155,4 +155,4 @@ if (weightDecay == true) {
 <p><strong>=(T*TData)+(W*WData)+(SR*SRData)+(DSP*DSPData)+(DRH*DRHData)+yIntercept</strong></p>
 <p>With this equation, we get a new column of PanE approximations. So then comparing all models (original PanE, Linear Regression and my ANN) we can see the following results. It is not very clear, but it’s visible that the Linear Regression model can approximate PanE slightly better than my ANN.</p>
 
-<img style="width: 300px; height: auto" src="https://user-images.githubusercontent.com/111706273/227575799-33cbcdbe-33f6-4989-a483-067f8a584600.png">
+<img style="width: 500px; height: auto" src="https://user-images.githubusercontent.com/111706273/227575799-33cbcdbe-33f6-4989-a483-067f8a584600.png">
