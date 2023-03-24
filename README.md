@@ -7,8 +7,7 @@
 <img style="width: 300px; height: auto" src="https://user-images.githubusercontent.com/111706273/227553191-abaa6d57-d9e3-4cd2-99b5-c08a50fa054a.png">
 <p>The way these rows where selected was using “formatting” tools in the Excell Data Sheet. After removing a large number of incorrect formatted values or outliers (such as the temperature being 180°C – which is unreasonable) I used the z-score method to remove any other outliers. The formula used is:</p>
 <p><strong> z=(x-mean)/std_deviation</strong>.</p>
-<p>Which calculates the distance and mean in standard deviation units. A value greater than a threshold is considered an outlier, such as 3 standard deviations from the mean.</p>
-<p>After removing all the outliers, we can visualize cleaner graphs, such as:</p>
+<p>Which calculates the distance and mean in standard deviation units. A value greater than a threshold is considered an outlier, such as 3 standard deviations from the mean. After removing all the outliers, we can visualize cleaner graphs, such as:</p>
 <img style="width: 300px; height: auto" src="https://user-images.githubusercontent.com/111706273/227554005-cb6cd8b5-180e-48cc-897c-054a86bbbe4d.png">
 <p>Our whole dataset would now look like this:</p>
 <img style="width: 300px; height: auto" src="https://user-images.githubusercontent.com/111706273/227554080-418c3d74-5ed2-49ed-8e16-d328d1e1768f.png">
@@ -20,7 +19,7 @@ Once the data was split in the three sets (the column “Date” was removed fro
 <h2>Implementation of Algorithm</h2>
 <p>The first step to implementing my Multi-Layer Perceptron was to hard-code the example given in lectures to make it easier to understand how an MLP worked. I was able to create the MLP with a fixed number of 2 inputs and 2 hidden nodes and recreate the correct output given in the lectures with both, one epoch and 20,000 epochs.
 The next step was to automate the MLP so that it was possible to add multiple inputs and hidden nodes. The diagram, bellow represents how the MLP is structured. The number of inputs in the artificial network will be equal to the length of the dataset. The number of hidden nodes can be updated in order to obtain the most optimal MLP. Finally, there will be only one output node which we will try to approximate it to the PanE after each epoch.</p>
-<img style="width: 20px; height: auto" src="https://user-images.githubusercontent.com/111706273/227556304-054700ab-b40d-47b0-a019-b9183ed91f9d.png">
+<img style="width: 200px; height: auto" src="https://user-images.githubusercontent.com/111706273/227556304-054700ab-b40d-47b0-a019-b9183ed91f9d.png">
 <p>My implementation of the MLP has been made using Java, where it consists of one class and multiple methods all of which are used for the neural network, including X improvements I applied to my MLP, which I will discuss later on.
 The main() method starts by setting all the variables I will need to store and run the Neural Network as well as call other methods. Some of these variables call the following methods:</p>
 <ul>
@@ -64,4 +63,79 @@ for (int inputN = 0; inputN < firstHiddenNode; inputN++) {
   }
   weightAndBias[inputN][hiddenN] = weightAndBias[inputN][hiddenN] + (p * (deltas[hiddenN]) * (weightAndBias[0][inputN])) + momentumVal;
 }
+```
+
+<h3>Bold Driver improvement</h3>
+<img style="width: 200px; height: auto" align="left" src="https://user-images.githubusercontent.com/111706273/227572948-d2174ab0-f256-44ca-8a20-6dae2a558ec2.png">
+<p align="left">Bold driver is the second  improvement that can be implemented on our model. It updates the learning parameter automatically to prevent the model to oscillate or become trapped in a local minima. The learning parameter is increased or decreased depending on some factors (these can be seen in the code below).</p>
+<br><br>
+
+```
+// Updates p within the Bold Driver laws
+if (epoch % 100 == 0 && epoch != 0 && boldDriver == true) {
+  double percentageIncrease = ((oldMean - mean[epoch]) / oldMean) * 100;
+
+  if (p >= 0.01 && p <= 0.5) {
+    if (percentageIncrease >= 4) {
+      p = p * 0.7;
+      weightAndBias = prevWeightAndBias;
+    } else if (percentageIncrease < 0) {
+      p = p * 1.05;
+     weightAndBias = prevWeightAndBias;
+    }
+  }
+  oldMean = mean[epoch];
+} else if (epoch == 0) {
+  oldMean = mean[epoch];
+}
+
+```
+
+<h3>Annealing improvement</h3>
+<img style="width: 200px; height: auto" align="left" src="https://user-images.githubusercontent.com/111706273/227573234-afdd7ba2-3f1f-4562-8a93-e9866c52af5b.png">
+<p align="left">Annealing changes the stepping size after each epoch where each change is based on the maximum number of epochs and the current epoch it’s at. As we can see on our graph, annealing is not the best improvement.</p>
+<br><br>
+
+```
+public static double annealingCalc(int numbOfEpoch, int epoch, double p) {
+double endP = 0.01;
+double q = 0.1;
+
+p = endP + ((q - endP)*(1-(1/(1+Math.exp(10-((20*epoch)/numbOfEpoch))))));
+return p;
+}
+
+```
+
+<h3>Weight Decay improvement</h3>
+<img style="width: 200px; height: auto" align="left" src="https://user-images.githubusercontent.com/111706273/227573462-2a3c6055-a351-4850-b915-34d418524605.png">
+<p align="left">The weight decay improvement wasn’t implemented correctly to my neural network, for this reason we can see a large spike on early epochs instead of the opposite. On the other hand, weight decay has a negative impact on the MSE due to the weights never being large enough for it to affect our model in a positive way.</p>
+<br><br>
+
+```
+// Using weight decay as an improvement
+if (weightDecay == true) {
+double count = 0;
+double omega = 0;
+double upsilon = 0;
+
+for (int row = 0; row < weightAndBias.length; row++) {
+for (int col = firstHiddenNode; col < indexOuputNode; col++) { // change
+
+if (weightAndBias[row][col] != null && row != col) {
+omega += Math.pow(weightAndBias[row][col], 2);
+count++;
+}
+}
+}
+omega = omega * (1/(2*(count)));
+if(epoch != 0) {
+upsilon = 1 / (p * epoch);
+}
+
+delta5 = ((fileRead[i][firstHiddenNode-1] - u5) + (omega * upsilon)) * (u5 * (1 - u5));
+} else {
+delta5 = (fileRead[i][firstHiddenNode-1] - u5) * (u5 * (1 - u5));
+}
+
 ```
