@@ -33,14 +33,16 @@ The main() method starts by setting all the variables I will need to store and r
 <p>The next step in the main() method is to run through the algorithm that calculates the output node and updates the weights. To do this I run through a nested “for” loop where the first loop loops through the number of epochs and the second loop loops through the number of rows in the dataset. 
 In the loop, for each row, I firstly add the new inputs to the weight-and-Bias two-dimension array. Then I call the forwardPass() method which passes various arguments in order to calculate the forward pass of our MLP. For each row, we calculate the forward pass using the following equations.</p>
 
-<p><strong>S_i=∑▒〖u_i*w_(i,j) 〗   and   f(S_i )=1/(1+e^(-S_i ) )</strong>.</p>
+<p><strong>S_i=∑〖u_i * w_(i,j)〗   and   f(S_i) = 1/(1 + e^(-S_i))</strong>.</p>
 
 <p>The values calculated for each bias will be stored in a “double[]” array, called “nodeValues[]”, for each forward pass and replaced on the next forward pass. On the other hand, for each row, their output node will be calculated and stored in a different array in order to keep track of them and therefore make it easier for us to calculate the Mean Square Error.</p>
 
 <p>The next step is to calculate our delta values which I will do so through another method called calculateDeltas(). Similar to “forwardPass()”, this method passes various arguments in order to calculate the new deltas. It will also return the delta of the output node as a double in order to apply it to our updating weights. In this method, the deltas of each hidden node will be calculated and saved in another “double[]” array so that we are able to loop through them when updating our weights. The equations used to calculate the deltas for the hidden nodes are as follows.</p>
-<p><strong>δ_i=(w_(i,j)*δ_(i+1) )*(u_i*(1-u_i ))</strong>.</p>
+<p><strong>δ_i = (w_(i,j) * δ_(i+1))*(u_i * (1 - u_i))</strong>.</p>
 <p>The equation used to calculate the delta for the output node varies a bit:</p>
-<p><strong>δ_i=(C_i-u_i )*(u_i*(1-u_i ))</strong>.</p>
+<p><strong>δ_i = (C_i - u_i)*(u_i * (1 - u_i))</strong>.</p>
 <p>Once we have calculated our delta values, we can move onto the final steps. Updating the weights, calculating the mean and writing our data to our files. 
-When updating the weights, I move backwards from the output node to the first input, replacing all values on the way. My mean values are then calculated after each epoch using the following equation.</p>
-<p>Last step is to write all these values to a CSV file using the writeToFile() method so that we can display them on graphs. The method to write to the file is through a buffer reader.</p>
+When updating the weights, I move backwards from the output node to the first input, replacing all values on the way. My mean values are then calculated after each epoch using the following equation. Last step is to write all these values to a CSV file using the writeToFile() method so that we can display them on graphs. The method to write to the file is through a buffer reader.</p>
+
+
+<h2>Training and network selection</h2>
