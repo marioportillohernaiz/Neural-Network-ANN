@@ -54,8 +54,8 @@ When updating the weights, I move backwards from the output node to the first in
 <img style="width: 200px; height: auto" align="left" src="https://user-images.githubusercontent.com/111706273/227570720-d9a49f38-0944-4898-866d-bdecfd1ab578.png">
 <p align="left">By implementing momentum, we can see that our model has improved drastically on our MSE values. With momentum, our MSE reaches close to zero around the 15th epoch whereas without momentum, our MSE reaches close to zero around the 30-epoch mark.</p>
 <br><br>
-```ruby
-// Updating bias & weights for hidden nodes
+
+```
 for (int inputN = 0; inputN < firstHiddenNode; inputN++) {
   // Adding momentum
   if (momentum == true && epoch != 0) {
